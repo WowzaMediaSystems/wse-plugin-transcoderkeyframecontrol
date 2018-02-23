@@ -7,6 +7,12 @@ Wowza Streaming Engine 4.6.0 or later is required.
 Wowza Transcoder must be enabled in the Wowza Streaming Engine application.
 
 ## Usage
+To enable the module, add the following module definition to your application configuration.
+
+Name | Description | Fully Qualified Class Name
+--- | --- | ---
+ModuleTranscoderVideoKeyFrameControl | Insert aligned key frames into transcoded streams. | com.wowza.wms.plugin.ModuleTranscoderVideoKeyFrameControl
+
 The following properties can be used to configure the module.
 
 Path | Name | Value | Comment
