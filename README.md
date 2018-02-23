@@ -8,6 +8,7 @@ Wowza Transcoder must be enabled in the Wowza Streaming Engine application.
 
 ## Usage
 The following properties can be used to configure the module.
+
 Path | Name | Value | Comment
 --- | --- | --- | ---
 /Root/Application/ | transcoderGopInterval | 2000 | default 2000ms
