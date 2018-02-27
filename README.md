@@ -11,7 +11,7 @@ To enable the module, add the following module definition to your application co
 
 Name | Description | Fully Qualified Class Name
 --- | --- | ---
-ModuleTranscoderVideoKeyFrameControl | Insert aligned key frames into transcoded streams. | com.wowza.wms.plugin.ModuleTranscoderVideoKeyFrameControl
+ModuleTranscoderVideoKeyFrameControl | Insert aligned key frames into transcoded streams. | com.wowza.wms.plugin.transcoder.ModuleTranscoderVideoKeyFrameControl
 
 The following properties can be used to configure the module.
 
