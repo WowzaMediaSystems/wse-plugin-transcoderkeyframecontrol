@@ -1,2 +1,5 @@
+Build 2
+	* Added check for timecodes jumping backwards and force a key frame if this happens
+	
 Build 1
 	* Initial commit

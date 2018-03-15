@@ -91,6 +91,7 @@ public class ModuleTranscoderVideoKeyFrameControl extends ModuleBase
 		private boolean debugLog = false;
 		private long gopStartTimecode = -1;
 		private long gopInterval = 2000;
+		private long previousFrameTimecode = -1;
 
 		public TranscoderVideoEncoderNotifier(LiveStreamTranscoder liveStreamTranscoder)
 		{
@@ -108,9 +109,16 @@ public class ModuleTranscoderVideoKeyFrameControl extends ModuleBase
 				int frameType = FLVUtils.FLV_PFRAME;
 				long frameTimecode = decodedFrame.getTimecode();
 
-				// every gopInterval we are going to force a key frame
-				if (frameTimecode >= gopStartTimecode)
+				// every gopInterval or timecode jump-back we are going to force a key frame
+				if (frameTimecode >= gopStartTimecode || frameTimecode <= previousFrameTimecode)
 				{
+					if (frameTimecode <= previousFrameTimecode)
+					{
+						if (debugLog)
+							logger.info(CLASSNAME + "#TranscoderVideoEncoderNotifier.onBeforeEncodeFrame[" + appInstance.getContextStr() + "/" + liveStreamTranscoder.getStreamName() + "(" + destinationVideo.getDestination().getName() + ")" + "]  Timecodes jumped backwards: " + previousFrameTimecode
+									+ " -> " + frameTimecode + ", forcing key frame", WMSLoggerIDs.CAT_application, WMSLoggerIDs.EVT_comment);
+
+					}
 					frameType = FLVUtils.FLV_KFRAME;
 					if (debugLog)
 						logger.info(CLASSNAME + "#TranscoderVideoEncoderNotifier.onBeforeEncodeFrame[" + appInstance.getContextStr() + "/" + liveStreamTranscoder.getStreamName() + "(" + destinationVideo.getDestination().getName() + ")" + "]  Insert key frame: gopStartTimecode:" + gopStartTimecode
@@ -118,6 +126,7 @@ public class ModuleTranscoderVideoKeyFrameControl extends ModuleBase
 
 					gopStartTimecode = ((frameTimecode / gopInterval) + 1) * gopInterval;
 				}
+				previousFrameTimecode = frameTimecode;
 
 				frameContext.setFrameType(frameType);
 			}
@@ -127,7 +136,7 @@ public class ModuleTranscoderVideoKeyFrameControl extends ModuleBase
 	public void onAppStart(IApplicationInstance appInstance)
 	{
 		logger = WMSLoggerFactory.getLoggerObj(appInstance);
-		logger.info(CLASSNAME + ".onAppStart[" + appInstance.getContextStr() + "]: Build #1.", WMSLoggerIDs.CAT_application, WMSLoggerIDs.EVT_comment);
+		logger.info(CLASSNAME + ".onAppStart[" + appInstance.getContextStr() + "]: Build #2.", WMSLoggerIDs.CAT_application, WMSLoggerIDs.EVT_comment);
 
 		this.appInstance = appInstance;
 
