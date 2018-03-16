@@ -2,7 +2,7 @@
  * This code and all components (c) Copyright 2006 - 2018, Wowza Media Systems, LLC. All rights reserved.
  * This code is licensed pursuant to the Wowza Public License version 1.0, available at www.wowza.com/legal.
  */
-package com.wowza.plugin.transcoder;
+package com.wowza.wms.plugin.transcoder;
 
 import java.util.List;
 
@@ -136,7 +136,7 @@ public class ModuleTranscoderVideoKeyFrameControl extends ModuleBase
 	public void onAppStart(IApplicationInstance appInstance)
 	{
 		logger = WMSLoggerFactory.getLoggerObj(appInstance);
-		logger.info(CLASSNAME + ".onAppStart[" + appInstance.getContextStr() + "]: Build #2.", WMSLoggerIDs.CAT_application, WMSLoggerIDs.EVT_comment);
+		logger.info(CLASSNAME + ".onAppStart[" + appInstance.getContextStr() + "]: Build #3.", WMSLoggerIDs.CAT_application, WMSLoggerIDs.EVT_comment);
 
 		this.appInstance = appInstance;
 
