@@ -92,6 +92,8 @@ public class ModuleTranscoderVideoKeyFrameControl extends ModuleBase
 		private long gopStartTimecode = -1;
 		private long gopInterval = 2000;
 		private long previousFrameTimecode = -1;
+		private long previousFrameCount = -1;
+		private long gopSize = 0;
 
 		public TranscoderVideoEncoderNotifier(LiveStreamTranscoder liveStreamTranscoder)
 		{
@@ -108,6 +110,13 @@ public class ModuleTranscoderVideoKeyFrameControl extends ModuleBase
 			{
 				int frameType = FLVUtils.FLV_PFRAME;
 				long frameTimecode = decodedFrame.getTimecode();
+				long frameCount = frameContext.getFrameCount();
+				if(previousFrameCount != -1 && previousFrameCount + 1 != frameCount)
+				{
+					if (debugLog)
+						logger.warn(CLASSNAME + "#TranscoderVideoEncoderNotifier.onBeforeEncodeFrame[" + appInstance.getContextStr() + "/" + liveStreamTranscoder.getStreamName() + "(" + destinationVideo.getDestination().getName() + ")" + "]  Bad frame count: " + previousFrameCount + ":" + frameCount + ", decodedFrame [dnf:enf:ft:tc]: " + decodedFrame.decoderNextFrame + ":" + decodedFrame.encoderNextFrame + ":" + decodedFrame.frameType + ":" + decodedFrame.timecode + ", packet: " + frameContext.getFrameHolder().getPacket(), WMSLoggerIDs.CAT_application, WMSLoggerIDs.EVT_comment);
+				}
+				previousFrameCount = frameCount;
 
 				// every gopInterval or timecode jump-back we are going to force a key frame
 				if (frameTimecode >= gopStartTimecode || frameTimecode <= previousFrameTimecode)
@@ -122,10 +131,16 @@ public class ModuleTranscoderVideoKeyFrameControl extends ModuleBase
 					frameType = FLVUtils.FLV_KFRAME;
 					if (debugLog)
 						logger.info(CLASSNAME + "#TranscoderVideoEncoderNotifier.onBeforeEncodeFrame[" + appInstance.getContextStr() + "/" + liveStreamTranscoder.getStreamName() + "(" + destinationVideo.getDestination().getName() + ")" + "]  Insert key frame: gopStartTimecode:" + gopStartTimecode
-								+ " timecode:" + frameTimecode, WMSLoggerIDs.CAT_application, WMSLoggerIDs.EVT_comment);
+								+ ", timecode:" + frameTimecode + ", frameCount:" + frameCount + ", lastGopSize:" + gopSize, WMSLoggerIDs.CAT_application, WMSLoggerIDs.EVT_comment);
 
 					gopStartTimecode = ((frameTimecode / gopInterval) + 1) * gopInterval;
+					gopSize = 1;
 				}
+				else
+				{
+					gopSize++;
+				}
+				
 				previousFrameTimecode = frameTimecode;
 
 				frameContext.setFrameType(frameType);
@@ -136,7 +151,7 @@ public class ModuleTranscoderVideoKeyFrameControl extends ModuleBase
 	public void onAppStart(IApplicationInstance appInstance)
 	{
 		logger = WMSLoggerFactory.getLoggerObj(appInstance);
-		logger.info(CLASSNAME + ".onAppStart[" + appInstance.getContextStr() + "]: Build #3.", WMSLoggerIDs.CAT_application, WMSLoggerIDs.EVT_comment);
+		logger.info(CLASSNAME + ".onAppStart[" + appInstance.getContextStr() + "]: Build #4.", WMSLoggerIDs.CAT_application, WMSLoggerIDs.EVT_comment);
 
 		this.appInstance = appInstance;
 

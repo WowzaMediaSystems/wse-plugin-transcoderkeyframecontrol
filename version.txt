@@ -1,3 +1,6 @@
+Build 4
+	* Added extra debug logging
+	
 Build 3
 	* Fixed broken package path
 
