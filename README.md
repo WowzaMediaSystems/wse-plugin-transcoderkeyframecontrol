@@ -23,7 +23,7 @@ Path | Name | Value | Comment
 The key frames are inserted each time the stream timecode rolls over the `transcoderGopInterval` value so if the transcoding starts on a non-zero timecode then the first GOP may be smaller than the `transcoderGopInterval` value.
 
 ## More resources
-[Wowza Streaming Engine Server-Side API Reference](https://www.wowza.com/resources/WowzaStreamingEngine_ServerSideAPI.pdf)
+[Wowza Streaming Engine Server-Side API Reference](https://www.wowza.com/resources/serverapi/)
 
 [How to extend Wowza Streaming Engine using the Wowza IDE](https://www.wowza.com/forums/content.php?759-How-to-extend-Wowza-Streaming-Engine-using-the-Wowza-IDE)
 
@@ -36,5 +36,3 @@ To use the compiled version of this module, see [How to insert aligned key frame
 
 ## License
 This code is distributed under the [Wowza Public License](https://github.com/WowzaMediaSystems/wse-plugin-transcodertimedsnapshot/blob/master/LICENSE.txt).
-
-![alt tag](http://wowzalogs.com/stats/githubimage.php?plugin=wse-plugin-transcoderkeyframecontrol)
