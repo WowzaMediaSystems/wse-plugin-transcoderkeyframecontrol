@@ -114,7 +114,7 @@ public class ModuleTranscoderVideoKeyFrameControl extends ModuleBase
 				if(previousFrameCount != -1 && previousFrameCount + 1 != frameCount)
 				{
 					if (debugLog)
-						logger.warn(CLASSNAME + "#TranscoderVideoEncoderNotifier.onBeforeEncodeFrame[" + appInstance.getContextStr() + "/" + liveStreamTranscoder.getStreamName() + "(" + destinationVideo.getDestination().getName() + ")" + "]  Bad frame count: " + previousFrameCount + ":" + frameCount + ", decodedFrame [dnf:enf:ft:tc]: " + decodedFrame.decoderNextFrame + ":" + decodedFrame.encoderNextFrame + ":" + decodedFrame.frameType + ":" + decodedFrame.timecode + ", packet: " + frameContext.getFrameHolder().getPacket(), WMSLoggerIDs.CAT_application, WMSLoggerIDs.EVT_comment);
+						logger.warn(CLASSNAME + "#TranscoderVideoEncoderNotifier.onBeforeEncodeFrame[" + appInstance.getContextStr() + "/" + liveStreamTranscoder.getStreamName() + "(" + destinationVideo.getDestination().getName() + ")" + "]  Bad frame count: " + previousFrameCount + ":" + frameCount + ", decodedFrame [dnf:enf:ft:tc]: " + decodedFrame.decoderNextFrame + ":" + decodedFrame.encoderNextFrame + ":" + decodedFrame.getFrameType() + ":" + decodedFrame.getTimecode() + ", packet: " + frameContext.getFrameHolder().getPacket(), WMSLoggerIDs.CAT_application, WMSLoggerIDs.EVT_comment);
 				}
 				previousFrameCount = frameCount;
 
@@ -140,7 +140,7 @@ public class ModuleTranscoderVideoKeyFrameControl extends ModuleBase
 				{
 					gopSize++;
 				}
-				
+
 				previousFrameTimecode = frameTimecode;
 
 				frameContext.setFrameType(frameType);
